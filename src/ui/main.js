@@ -3,7 +3,7 @@
 
 var util = require('../util');
 
-var adder = require('./adder');
+//var adder = require('./adder');
 var editor = require('./editor');
 var highlighter = require('./highlighter');
 var textselector = require('./textselector');
@@ -226,12 +226,14 @@ function main(options) {
         var ident = app.registry.getUtility('identityPolicy');
         var authz = app.registry.getUtility('authorizationPolicy');
 
+/*
         s.adder = new adder.Adder({
             onCreate: function (ann) {
                 app.annotations.create(ann);
             }
         });
         s.adder.attach();
+*/
 
         s.editor = new editor.Editor({
             extensions: options.editorExtensions
@@ -245,11 +247,12 @@ function main(options) {
         s.textselector = new textselector.TextSelector(options.element, {
             onSelection: function (ranges, event) {
                 if (ranges.length > 0) {
-                    var annotation = makeAnnotation(ranges);
+//                    var annotation = makeAnnotation(ranges);
                     s.interactionPoint = util.mousePosition(event);
-                    s.adder.load(annotation, s.interactionPoint);
+//                    s.adder.load(annotation, s.interactionPoint);
+                    app.annotations.create(makeAnnotation(ranges));
                 } else {
-                    s.adder.hide();
+//                    s.adder.hide();
                 }
             }
         });
@@ -283,7 +286,7 @@ function main(options) {
         start: start,
 
         destroy: function () {
-            s.adder.destroy();
+//            s.adder.destroy();
             s.editor.destroy();
             s.highlighter.destroy();
             s.textselector.destroy();
