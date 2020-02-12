@@ -102,9 +102,30 @@ Widget.prototype.checkOrientation = function () {
         this.invertY();
     }
 
+/*
     if ((current.right - viewport.right) > 0) {
         this.invertX();
     }
+*/
+
+    var w = $widget.width();
+    var ww = $win.width();
+
+    var x = this.element.offset().left - w/2;
+
+    if (w >= ww) {
+        x = 0;
+    } else {
+        if (x < 0) {
+            x = 0;
+        } else if (x + w > ww) {
+            x = ww - w;
+        }
+    }
+
+    this.element.css({
+        left: x - $widget.position().left
+    });
 
     return this;
 };
